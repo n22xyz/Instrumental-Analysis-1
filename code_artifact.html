@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کاوشگر تعاملی اسپکتروپلاریمتری در علوم دارویی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+            border: 2px solid #ffffff;
+            transition: transform 0.15s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.18);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #6366f1, #38bdf8, #10b981);
+            border-radius: 4px;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
+        }
+        .glow-gold {
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.22);
+        }
+        @keyframes pulseSlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-slow {
+            animation: pulseSlow 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800/90 px-4 py-3 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col gap-3">
+            <!-- Top Row: Title & University -->
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-sky-500/30 shrink-0">
+                        <i class="ph-fill ph-atom text-3xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-base md:text-xl font-black text-white tracking-tight">
+                            کاربردهای اسپکتروپلاریمتری و طیف‌سنجی کایروپتیکال در علوم دارویی
+                        </h1>
+                        <p class="text-xs text-slate-300 mt-0.5">
+                            دانشگاه علوم پزشکی مازندران (پردیس رامسر) • درس آنالیز دستگاهی ۱ • شبیه‌ساز دقیق آزمایشگاهی
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Eye-catching Presenters & Supervisor Spotlight Card -->
+                <div class="w-full lg:w-auto px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-sky-500/20 to-purple-500/20 border-2 border-amber-400/50 glow-gold flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm">
+                    <div class="flex items-center gap-1.5 font-black text-amber-300">
+                        <i class="ph-fill ph-chalkboard-teacher text-lg text-amber-400"></i>
+                        <span>استاد راهنما: دکتر مینا شیرزادی</span>
+                    </div>
+                    <span class="text-slate-500 hidden sm:inline">|</span>
+                    <div class="flex items-center gap-1.5 font-black text-white">
+                        <i class="ph-fill ph-users-three text-lg text-sky-400"></i>
+                        <span>ارائه دهندگان سمینار: <span class="text-sky-300">نیما پیام</span> و <span class="text-purple-300">نگین رسولی</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="max-w-7xl w-full mx-auto px-4 pt-4 pb-2 space-y-3">
+        <!-- Master Timeline Card -->
+        <div class="glass-card rounded-2xl p-4 border border-slate-800 glow-cyan">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">خط زمانی تعاملی (Master Scrubber)</span>
+                    <span class="text-xs text-slate-400 hidden md:inline">— بین ۸ ایستگاه علمی حرکت کنید یا پارامترهای دقیق هر ایستگاه را کالیبره نمایید</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="toggleCustomPanelBtn" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-300 text-xs font-bold flex items-center gap-1.5 transition">
+                        <i class="ph-fill ph-faders text-base"></i>
+                        پنل تنظیمات و دقت دیاگرام‌ها
+                    </button>
+                    <button id="prevStageBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs flex items-center gap-1 transition">
+                        <i class="ph-bold ph-caret-right"></i> قبلی
+                    </button>
+                    <span id="stageCounterBadge" class="px-3 py-1.5 rounded-xl bg-sky-500/20 text-sky-300 font-bold text-xs">ایستگاه ۱ از ۸</span>
+                    <button id="nextStageBtn" class="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs flex items-center gap-1 transition">
+                        بعدی <i class="ph-bold ph-caret-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Master Timeline Slider -->
+            <div class="px-2 py-1">
+                <input id="masterTimeline" type="range" min="0" max="7" step="1" value="0" aria-label="خط زمانی ارائه">
+            </div>
+
+            <!-- Station Navigation Pills -->
+            <div id="stationPills" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mt-3">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+
+        <!-- Global Precision & Customization Control Deck (Collapsible) -->
+        <div id="customControlDeck" class="glass-card rounded-2xl p-4 border border-amber-500/40 bg-slate-900/90 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                    <i class="ph-fill ph-sliders text-amber-400 text-lg"></i>
+                    <span class="text-xs md:text-sm font-black text-white">استودیو شخصی‌سازی و کالیبراسیون دقیق دیاگرام‌ها (Global Lab Controls)</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button id="pauseResumeBtn" class="px-3 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1 transition">
+                        <i id="pauseResumeIcon" class="ph-fill ph-pause"></i>
+                        <span id="pauseResumeText">توقف انیمیشن</span>
+                    </button>
+                    <button id="resetGlobalBtn" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs flex items-center gap-1 transition">
+                        <i class="ph-bold ph-arrow-counter-clockwise"></i>
+                        بازنشانی تنظیمات استاندارد
+                    </button>
+                </div>
+            </div>
+
+            <!-- 6 Global Sliders & Toggles -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 text-xs">
+                <!-- 1. Animation Speed -->
+                <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                    <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                        <span>سرعت انیمیشن و موج:</span>
+                        <span id="valSpeed" class="text-sky-400 font-mono">1.0x</span>
+                    </div>
+                    <input id="ctrlSpeed" type="range" min="0" max="3" step="0.1" value="1.0">
+                    <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                        <span>فریز (0x)</span>
+                        <span>سریع (3x)</span>
+                    </div>
+                </div>
+
+                <!-- 2. Diagram Resolution (Sampling Step) -->
+                <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                    <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                        <span>دقت رسم منحنی (Resolution):</span>
+                        <span id="valRes" class="text-emerald-400 font-mono">فوق دقیق (1px)</span>
+                    </div>
+                    <input id="ctrlRes" type="range" min="1" max="10" step="1" value="1">
+                    <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                        <span>حداکثر دقت (1px)</span>
+                        <span>گسسته (10px)</span>
+                    </div>
+                </div>
+
+                <!-- 3. Spectral Bandwidth / Peak Sharpness -->
+                <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                    <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                        <span>پهنای باند پیک (FWHM):</span>
+                        <span id="valSharpness" class="text-purple-400 font-mono">1.0x</span>
+                    </div>
+                    <input id="ctrlSharpness" type="range" min="0.4" max="2.2" step="0.05" value="1.0">
+                    <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                        <span>پهن</span>
+                        <span>بسیار تیز (Sharp)</span>
+                    </div>
+                </div>
+
+                <!-- 4. Vertical Gain / Amplitude -->
+                <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                    <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                        <span>بزرگنمایی دامنه (Gain):</span>
+                        <span id="valGain" class="text-amber-400 font-mono">100%</span>
+                    </div>
+                    <input id="ctrlGain" type="range" min="40" max="180" step="5" value="100">
+                    <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                        <span>40%</span>
+                        <span>180%</span>
+                    </div>
+                </div>
+
+                <!-- 5. Instrumental Noise Level (SNR) -->
+                <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                    <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                        <span>نویز دستگاهی (Noise):</span>
+                        <span id="valNoise" class="text-rose-400 font-mono">0.0%</span>
+                    </div>
+                    <input id="ctrlNoise" type="range" min="0" max="15" step="0.5" value="0">
+                    <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                        <span>صفر (ایزوله)</span>
+                        <span>نویز واقعی (15%)</span>
+                    </div>
+                </div>
+
+                <!-- 6. Visual Overlays & Crosshair Toggles -->
+                <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 flex flex-col justify-between gap-1.5">
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <span class="text-slate-300 font-bold">خط‌کش و مختصات موس:</span>
+                        <input id="chkCrosshair" type="checkbox" checked class="accent-sky-400 w-4 h-4 rounded cursor-pointer">
+                    </label>
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <span class="text-slate-300 font-bold">شبکه‌بندی میلی‌متری:</span>
+                        <input id="chkFineGrid" type="checkbox" checked class="accent-sky-400 w-4 h-4 rounded cursor-pointer">
+                    </label>
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <span class="text-slate-300 font-bold">برچسب مقادیر قله‌ها:</span>
+                        <input id="chkPeakLabels" type="checkbox" checked class="accent-sky-400 w-4 h-4 rounded cursor-pointer">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl w-full mx-auto px-4 py-3 flex-grow flex flex-col gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+            <!-- Right Column in RTL (5 cols): Story, Key Highlights, and Multi-Parameter Stage Controls -->
+            <div class="lg:col-span-5 flex flex-col justify-between glass-card rounded-2xl p-5 md:p-6 border border-slate-800 relative overflow-hidden">
+                <div>
+                    <div id="partBadgeContainer" class="flex items-center justify-between mb-3">
+                        <span id="partBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40">
+                            بخش اول • ارائه: نیما پیام
+                        </span>
+                        <span id="slideRefBadge" class="text-xs text-slate-400 font-mono">اسلاید ۱ و ۲</span>
+                    </div>
+
+                    <h2 id="stageTitle" class="text-lg md:text-2xl font-black text-white leading-snug mb-2.5">
+                        اهمیت دست‌سانی (کایرالیتی) در داروسازی
+                    </h2>
+                    <p id="stageSubtitle" class="text-xs md:text-sm text-slate-300 leading-relaxed mb-4">
+                        گیرنده‌ها و آنزیم‌های بدن انسان خودشان دست‌سان هستند؛ بنابراین دو انانتیومر یک دارو مانند دست چپ و راست عمل کرده و تنها یکی از آن‌ها به درستی در گیرنده قفل می‌شود.
+                    </p>
+
+                    <!-- Key Bullet Points -->
+                    <div id="stageBullets" class="space-y-2 mb-5">
+                        <!-- Dynamic bullets -->
+                    </div>
+                </div>
+
+                <!-- Stage-Specific Interactive Parameter Box (Primary + Secondary Precision Controls) -->
+                <div class="mt-auto pt-3 border-t border-slate-800/90 space-y-3">
+                    <div class="bg-slate-900/95 rounded-xl p-4 border border-sky-500/30 space-y-3">
+                        <!-- Primary Parameter Scrubber + Direct Numeric Input -->
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-1.5">
+                                <label for="localScrubber" id="localScrubberLabel" class="text-xs font-bold text-sky-300 flex items-center gap-1.5">
+                                    <i class="ph-fill ph-sliders-horizontal text-base"></i>
+                                    پارامتر اصلی آزمایشگاه:
+                                </label>
+                                <div class="flex items-center gap-1">
+                                    <input id="localScrubberNum" type="number" min="0" max="100" step="0.5" value="12" class="w-16 bg-slate-950 border border-sky-500/40 rounded px-1.5 py-0.5 text-xs font-mono text-sky-300 text-center focus:outline-none focus:border-sky-400">
+                                    <span class="text-xs text-sky-300 font-bold">%</span>
+                                </div>
+                            </div>
+                            <input id="localScrubber" type="range" min="0" max="100" step="0.5" value="12">
+                            <div class="flex justify-between text-[10px] text-slate-400 mt-1" id="localScrubberHints">
+                                <span>حالت اول</span>
+                                <span>حالت دوم</span>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Stage-Specific Precision Parameter -->
+                        <div class="pt-2.5 border-t border-slate-800/80">
+                            <div class="flex items-center justify-between gap-2 mb-1.5">
+                                <label for="secondaryScrubber" id="secondaryScrubberLabel" class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                                    <i class="ph-fill ph-gauge text-base"></i>
+                                    پارامتر دقیق ثانویه:
+                                </label>
+                                <span id="secondaryScrubberValue" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-200">
+                                    1.00
+                                </span>
+                            </div>
+                            <input id="secondaryScrubber" type="range" min="10" max="200" step="1" value="100">
+                        </div>
+
+                        <!-- Quick Preset Buttons -->
+                        <div id="presetButtonsContainer" class="flex flex-wrap gap-1.5 pt-1">
+                            <!-- Dynamic preset buttons -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left Column in RTL (7 cols): High-Precision Interactive Canvas & Live Telemetry -->
+            <div class="lg:col-span-7 glass-card rounded-2xl p-4 md:p-5 border border-slate-800 flex flex-col justify-between relative min-h-[460px]">
+                <!-- Top Visualizer Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-2 border-b border-slate-800/80">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span id="canvasHeaderTitle" class="text-xs font-bold text-slate-200 mr-1">شبیه‌ساز فضایی انانتیومرها و گیرنده زیستی</span>
+                    </div>
+                    <div id="liveMetricPill" class="px-3 py-1 rounded-full bg-slate-800 text-xs font-bold text-amber-300 border border-amber-500/30">
+                        وضعیت: اوتومر (Eutomer) فعال
+                    </div>
+                </div>
+
+                <!-- Live Quantitative Telemetry Readout Bar -->
+                <div id="telemetryGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3 text-[11px]">
+                    <!-- Populated dynamically with exact scientific metrics -->
+                </div>
+
+                <!-- Interactive Canvas Container -->
+                <div class="relative w-full flex-grow flex items-center justify-center bg-slate-950/85 rounded-xl border border-slate-800/90 overflow-hidden min-h-[330px] cursor-crosshair">
+                    <canvas id="simCanvas" class="w-full h-full block"></canvas>
+                </div>
+
+                <!-- Visual Plain-Language Formula / Explanation Strip (No LaTeX!) -->
+                <div id="visualFormulaStrip" class="mt-3 bg-slate-900/90 rounded-xl p-3 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+                    <!-- Populated dynamically with clean visual badges instead of LaTeX -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Strategic Drug Quality Lifecycle (Slide 14) -->
+        <section class="glass-card rounded-2xl p-5 border border-slate-800">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="ph-fill ph-arrows-clockwise text-sky-400 text-lg"></i>
+                        جایگاه راهبردی طیف‌سنجی کایروپتیکال در چرخه کیفیت دارو (اسلاید ۱۴ و ۱۵)
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">
+                        روی هر گام کلیک کنید تا مستقیماً به ایستگاه آزمایشگاهی مربوطه بروید:
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 text-xs w-full md:w-auto">
+                    <div onclick="jumpToStage(3)" class="cursor-pointer flex-1 md:flex-initial px-3.5 py-2 rounded-xl bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/25 transition text-center">
+                        <div class="font-black">۱. گام کشف و سنتز</div>
+                        <div class="text-[11px] text-slate-400">تعیین ساختار ۳ بعدی بدون بلور (VCD)</div>
+                    </div>
+                    <i class="ph-bold ph-arrow-left text-slate-500 hidden md:inline"></i>
+                    <div onclick="jumpToStage(4)" class="cursor-pointer flex-1 md:flex-initial px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 hover:bg-amber-500/25 transition text-center">
+                        <div class="font-black">۲. کنترل کیفی خط تولید</div>
+                        <div class="text-[11px] text-slate-400">پایش خلوص بالای ۹۹٪ با HPLC-CD</div>
+                    </div>
+                    <i class="ph-bold ph-arrow-left text-slate-500 hidden md:inline"></i>
+                    <div onclick="jumpToStage(7)" class="cursor-pointer flex-1 md:flex-initial px-3.5 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 transition text-center">
+                        <div class="font-black">۳. فرمولاسیون زیستی</div>
+                        <div class="text-[11px] text-slate-400">تضمین تاخوردگی پروتئین و بیوسیمیلارها</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-6 border-t border-slate-800/90 bg-slate-950 px-4 py-6">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-5">
+            <div class="text-xs text-slate-400 space-y-1.5 text-center lg:text-right">
+                <div class="font-bold text-slate-200 flex items-center justify-center lg:justify-start gap-1.5">
+                    <i class="ph-fill ph-book-bookmark text-sky-400 text-base"></i>
+                    <span>منبع اصلی ارائه (اسلاید ۱۵):</span>
+                </div>
+                <p class="font-mono text-[11px] text-slate-400" dir="ltr">
+                    Busch, K. W., & Busch, M. A. (Eds.). Chiral Analysis, 1st Edition, Elsevier B.V., 2006 (Chapters 11, 13, 14 - Bornhop, Gawronski, Polavarapu).
+                </p>
+            </div>
+
+            <!-- Prominent Seminar Presenters & Developer Badge -->
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+                <div class="px-4 py-2.5 rounded-xl bg-slate-900 border border-amber-400/40 text-xs md:text-sm font-bold text-amber-200 shadow-md">
+                    ارائه دهندگان سمینار: نیما پیام و نگین رسولی • استاد راهنما: دکتر مینا شیرزادی
+                </div>
+
+                <div class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500/25 via-indigo-500/25 to-purple-500/25 border-2 border-sky-400/50 shadow-lg shadow-sky-500/10">
+                    <span class="text-sm md:text-base font-black text-white tracking-wide flex items-center gap-2">
+                        <i class="ph-fill ph-code text-sky-400 text-xl"></i>
+                        توسعه دهنده: نیما پیام
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const stages = [
+            {
+                id: 0,
+                shortName: "۱. کایرالیتی و تالیدومید",
+                part: "بخش اول • ارائه: نیما پیام",
+                partColor: "sky",
+                slides: "اسلاید ۱ و ۲",
+                title: "اهمیت و چالش‌های دست‌سانی (کایرالیتی) در داروسازی",
+                subtitle: "محیط‌های زیستی بدن (گیرنده‌ها و آنزیم‌ها) کاملاً دست‌سان هستند. دو تصویر آینه‌ای یک مولکول دارو می‌توانند اثرات زیستی کاملاً متفاوتی در بدن ایجاد کنند.",
+                bullets: [
+                    "تفاوت اوتومر (Eutomer با اثر درمانی مطلوب) و دیستومر (Distomer دارای سمیت یا بی‌اثر)",
+                    "فاجعه تاریخی داروی تالیدومید: ایزومر (R) آرام‌بخش ایمن و ایزومر (S) عامل نقص‌های مادرزادی (تراتوژن)",
+                    "الزامات سخت‌گیرانه سازمان‌های جهانی FDA و EMA برای تعیین خلوص نوری تک‌تک انانتیومرها"
+                ],
+                scrubberLabel: "نسبت دیستومر (S) به اوتومر (R) در نمونه دارویی:",
+                hints: ["۰٪ (اوتومر خالص R)", "۵۰٪ (مخلوط راسمیک)", "۱۰۰٪ (دیستومر سمی S)"],
+                defaultVal: 10,
+                secondaryLabel: "فاصله و زاویه چرخش سه‌بعدی پیوندها:",
+                secondaryDefault: 100,
+                secondaryUnit: " درجه/مقیاس",
+                presets: [
+                    { label: "اوتومر خالص R (۱۰۰٪ درمانی)", val: 0, sec: 100 },
+                    { label: "مخلوط ۵۰/۵۰ راسمیک", val: 50, sec: 100 },
+                    { label: "دیستومر S (سمیت تالیدومید)", val: 100, sec: 135 }
+                ],
+                canvasTitle: "شبیه‌ساز آینه‌ای انانتیومرها (R و S) و قفل شدن در گیرنده زیستی",
+                formulaStrip: "قاعده کلیدی زیستی: تطابق سه‌بعدی با گیرنده ⬅️ اوتومر (درمان) | عدم تطابق فضایی ⬅️ دیستومر (سمیت)"
+            },
+            {
+                id: 1,
+                shortName: "۲. نور قطبیده و چرخش",
+                part: "بخش اول • ارائه: نیما پیام",
+                partColor: "sky",
+                slides: "اسلاید ۳",
+                title: "محدودیت طیف‌سنجی متداول و نقش تشخیصی نور قطبیده",
+                subtitle: "در طیف‌سنجی UV-Vis معمولی، دو انانتیومر طیف کاملاً یکسانی دارند و قابل تشخیص نیستند! تنها نور قطبیده (پلاریزه) می‌تواند به عنوان ابزار تمایز فضایی عمل کند.",
+                bullets: [
+                    "تشابه کامل جذب دو انانتیومر در نور غیرقطبیده (UV-Vis عادی)",
+                    "عبور موج نور قطبیده از محیط فعال نوری و انحراف صفحه نور به اندازه زاویه چرخش نوری (α)",
+                    "جذب تفاضلی نور دایره‌ای چپ‌گرد (L-CPL) و راست‌گرد (R-CPL) توسط مولکول‌های کایرال"
+                ],
+                scrubberLabel: "تنظیم غلظت و نوع انانتیومر درون سل نمونه:",
+                hints: ["انانتیومر چپ‌گرد (-)", "محیط راسمیک (۰ درجه)", "انانتیومر راست‌گرد (+)"],
+                defaultVal: 82,
+                secondaryLabel: "طول مسیر سل نوری (Path Length - dm):",
+                secondaryDefault: 100,
+                secondaryUnit: " dm",
+                presets: [
+                    { label: "انانتیومر چپ‌گرد (سل ۱ دسی‌متر)", val: 12, sec: 100 },
+                    { label: "مخلوط راسمیک (چرخش صفر)", val: 50, sec: 100 },
+                    { label: "انانتیومر راست‌گرد (سل طویل ۱.۸dm)", val: 88, sec: 180 }
+                ],
+                canvasTitle: "عبور موج نور قطبیده از محیط فعال نوری و چرخش زاویه آن (قانون بیو)",
+                formulaStrip: "قانون پلاریمتری: زاویه چرخش مشاهده‌شده (α) = چرخش ویژه دارو × طول سل (L) × غلظت محلول (C)"
+            },
+            {
+                id: 2,
+                shortName: "۳. مقایسه ORD, ECD, VCD",
+                part: "بخش اول • ارائه: نیما پیام",
+                partColor: "sky",
+                slides: "اسلاید ۴",
+                title: "روش‌های طیف‌سنجی کایروپتیکال و معیارهای انتخاب روش",
+                subtitle: "با حرکت در طول موج‌های مختلف نور (از فرابنفش دور تا فروسرخ میانی)، سه تکنیک قدرتمند برای تحلیل مولکول‌های دارویی در اختیار داریم:",
+                bullets: [
+                    "روش ORD: اندازه‌گیری چرخش زاویه نور در ناحیه UV-Vis (منحنی پراکندگی اثر کاتن) برای سنجش سریع خلوص",
+                    "روش ECD: جذب تفاضلی نور در ناحیه فرابنفش برای بررسی ساختار فضایی و ماکرومولکول‌ها",
+                    "روش VCD: دورنگی دایره‌ای ارتعاشی در ناحیه فروسرخ میانی (Mid-IR) مستقل از کروموفور UV!"
+                ],
+                scrubberLabel: "پیمایش طول موج طیف الکترومغناطیس (از UV دور تا Mid-IR):",
+                hints: ["ناحیه فرابنفش (ECD)", "ناحیه مرئی (ORD)", "ناحیه فروسرخ میانی (VCD)"],
+                defaultVal: 85,
+                secondaryLabel: "فرکانس مدولاسیون فتوالاستیک (PEM kHz):",
+                secondaryDefault: 100,
+                secondaryUnit: " kHz",
+                presets: [
+                    { label: "ناحیه فرابنفش دور (ECD - 200nm)", val: 16, sec: 100 },
+                    { label: "ناحیه مرئی و اثر کاتن (ORD - 400nm)", val: 50, sec: 100 },
+                    { label: "ناحیه فروسرخ میانی (VCD - 1400cm⁻¹)", val: 86, sec: 140 }
+                ],
+                canvasTitle: "مقایسه سه ناحیه طیفی (Far-UV, UV-Vis, Mid-IR) و پاسخ مولکولی",
+                formulaStrip: "ناحیه فرابنفش (گذار الکترونی: ECD/ORD) ⬅️ افزایش طول موج ⬅️ ناحیه فروسرخ میانی (ارتعاش پیوندها: VCD)"
+            },
+            {
+                id: 3,
+                shortName: "۴. تعیین ساختار با VCD",
+                part: "بخش اول • ارائه: نیما پیام",
+                partColor: "sky",
+                slides: "اسلاید ۵-۱، ۵-۲ و ۶",
+                title: "تعیین ساختار سه‌بعدی بدون نیاز به کریستال (VCD و DFT)",
+                subtitle: "روش VCD محدودیت بزرگ بلورنگاری پرتو ایکس (X-ray) یعنی نیاز به تک‌بلور را حذف کرده و آرایش مطلق مولکول را مستقیماً در فاز مایع و محلول دارویی مشخص می‌کند.",
+                bullets: [
+                    "تعیین ساختار قطعی داروهای بیهوشی استنشاقی (ایزوفلوران و دسفلوران) که فاقد کروموفور UV هستند",
+                    "بررسی ضدقارچ‌های پیچیده مانند کتوکونازول و ایتراکونازول با چندین مرکز کایرال",
+                    "مقایسه و انطباق مستقیم طیف تجربی آزمایشگاه با طیف محاسبات شیمی کوانتومی (DFT)"
+                ],
+                scrubberLabel: "ضریب انطباق آرایش فضایی مدل DFT با طیف تجربی:",
+                hints: ["فرض ایزومر (S) - معکوس", "حالت گذار", "فرض ایزومر (R) - انطباق کامل!"],
+                defaultVal: 96,
+                secondaryLabel: "ضریب مقیاس فرکانس ارتعاشی (harmonic scale):",
+                secondaryDefault: 100,
+                secondaryUnit: "%",
+                presets: [
+                    { label: "مدل محاسباتی (S) - عدم انطباق فاز", val: 4, sec: 100 },
+                    { label: "عدم کالیبراسیدن فرکانس DFT", val: 95, sec: 135 },
+                    { label: "انطباق ۱۰۰٪ با آرایش مطلق (R) ایزوفلوران", val: 98, sec: 100 }
+                ],
+                canvasTitle: "تطبیق طیف تجربی VCD با محاسبات کوانتومی DFT (ناحیه 900 تا 1800 cm⁻¹)",
+                formulaStrip: "جریان کار VCD: ثبت طیف محلول دارو در IR ➕ محاسبات کامپیوتری DFT 🟰 کشف آرایش مطلق (R یا S) بدون بلور"
+            },
+            {
+                id: 4,
+                shortName: "۵. پایش خط تولید HPLC-CD",
+                part: "بخش اول • ارائه: نیما پیام",
+                partColor: "sky",
+                slides: "اسلاید ۷ و ۸",
+                title: "پایش آنلاین خلوص انانتیومری در خط تولید (HPLC-CD) و گذار به بیوداروها",
+                subtitle: "اتصال آنلاین آشکارساز CD به دستگاه کروماتوگرافی (PAT) اجازه می‌دهد خلوص انانتیومری بالای ۹۹٪ را در بچ‌های تولیدی به صورت زنده پایش کنیم.",
+                bullets: [
+                    "کروماتوگرام دوگانه: پیک‌های همیشه مثبت در UV (بالا) در برابر پیک‌های متقارن مثبت و منفی در CD (پایین)",
+                    "کاهش وابستگی به ستون‌های کایرال بسیار گران‌قیمت با تفکیک نوری سیگنال‌ها",
+                    "گذار از مولکول‌های سنتزی کوچک به دنیای حساس ماکرومولکول‌های زیستی و پروتئین‌ها"
+                ],
+                scrubberLabel: "درصد خلوص انانتیومری (EE%) در بچ تولیدی:",
+                hints: ["۰٪ (راسمیک ۵۰/۵۰)", "۵۰٪ (خلوص متوسط)", "۹۹.۵٪ (استاندارد فارماکوپه)"],
+                defaultVal: 18,
+                secondaryLabel: "قدرت تفکیک ستون کروماتوگرافی (Resolution Rs):",
+                secondaryDefault: 100,
+                secondaryUnit: "%",
+                presets: [
+                    { label: "مخلوط راسمیک (پیک + و - برابر)", val: 0, sec: 100 },
+                    { label: "هم‌پوشانی پیک‌ها (ستون ضعیف)", val: 35, sec: 45 },
+                    { label: "بچ استاندارد دارویی (EE > 99%)", val: 99.2, sec: 115 }
+                ],
+                canvasTitle: "کروماتوگرام دوگانه زنده: آشکارساز UV (بالا) در کنار آشکارساز CD (پایین)",
+                formulaStrip: "درصد خلوص انانتیومری (EE%) = (مساحت پیک R منهای مساحت پیک S) تقسیم بر مجموع کل مساحت‌ها × ۱۰۰"
+            },
+            {
+                id: 5,
+                shortName: "۶. پروتئین‌ها و انسولین",
+                part: "بخش دوم • ارائه: نگین رسولی",
+                partColor: "purple",
+                slides: "اسلاید ۹، ۱۰-۱، ۱۰-۲ و ۱۱",
+                title: "ساختار مرتبه بالا (HOS) و اثرانگشت ساختار دوم پروتئین‌ها با CD",
+                subtitle: "در آنتی‌بادی‌های مونوکلونال (mAbs)، واکسن‌ها و انسولین، اثر درمانی کاملاً وابسته به تاخوردگی صحیح زنجیره پپتیدی است و باز شدن آن موجب تجمع و واکنش ایمنی می‌شود.",
+                bullets: [
+                    "طیف شاخص مارپیچ آلفا (α-Helix): قله مثبت ۱۹۲nm و دو مینیمم شاخص در ۲۰۸ و ۲۲۲ نانومتر (انسولین سالم)",
+                    "طیف شاخص صفحات بتا (β-Sheet): قله مثبت ۱۹۵nm و یک مینیمم شاخص در ۲۱۸ نانومتر",
+                    "پایش تبدیل کنفورماسیون بومی به صفحات بتا و فیبریل‌های آمیلوئیدی در آلزایمر، پریون و نانوذرات PLGA"
+                ],
+                scrubberLabel: "تغییر وضعیت تاخوردگی زنجیره پروتئینی (دمای فرمولاسیون):",
+                hints: ["مارپیچ آلفا (انسولین سالم)", "صفحات بتا (فیبریل آمیلوئیدی)", "کلاف تصادفی (تخریب کامل)"],
+                defaultVal: 5,
+                secondaryLabel: "غلظت یون‌های القاگر تجمع / تنش حرارتی:",
+                secondaryDefault: 100,
+                secondaryUnit: "%",
+                presets: [
+                    { label: "انسولین سالم درون نانوذره PLGA (α-Helix)", val: 4, sec: 100 },
+                    { label: "تشکیل صفحات بتا و فیبریل آمیلوئیدی (218nm)", val: 50, sec: 120 },
+                    { label: "باز شدن کامل زنجیره (Random Coil - 198nm)", val: 96, sec: 140 }
+                ],
+                canvasTitle: "طیف دورنگی دایره‌ای فرابنفش دور (180 تا 240nm) و کنفورماسیون زنجیره",
+                formulaStrip: "شناسه طیفی CD: مینیمم دوگانه ۲۰۸ و ۲۲۲ نانومتر (مارپیچ آلفا) | مینیمم ۲۱۸ نانومتر (صفحه بتا) | مینیمم ۱۹۸ نانومتر (کلاف باز)"
+            },
+            {
+                id: 6,
+                shortName: "۷. نانودارورسانی و ICD",
+                part: "بخش دوم • ارائه: نگین رسولی",
+                partColor: "purple",
+                slides: "اسلاید ۱۲",
+                title: "نانودارورسانی به کمک سیگنال القایی (Induced CD)",
+                subtitle: "بسیاری از مولکول‌های دارویی کوچک، خودشان کایرال نیستند (آکایرال) و سیگنال CD ندارند؛ اما به محض ورود به حفره کایرال نانوحامل‌ها، سیگنال جدیدی از خود ساطع می‌کنند!",
+                bullets: [
+                    "عدم وجود سیگنال کایروپتیکال ذاتی در مولکول‌های دارویی آکایرال در حالت آزاد",
+                    "القای سیگنال جدید (ICD) به محض جایگیری دارو درون حفره قیفی‌شکل سیکلودکسترین",
+                    "کاربرد در افزایش حلالیت داروهای نامحلول و سنجش نحوه اتصال دارو به آلبومین سرم انسانی (HSA)"
+                ],
+                scrubberLabel: "درصد نفوذ و جایگیری مولکول دارو درون حفره سیکلودکسترین:",
+                hints: ["۰٪ (داروی آزاد - ICD صفر)", "۵۰٪ (ورود جزئی)", "۱۰۰٪ (کمپلکس کامل درون حفره)"],
+                defaultVal: 85,
+                secondaryLabel: "ثابت تمایل اتصال میزبان-مهمان (Binding Ka):",
+                secondaryDefault: 110,
+                secondaryUnit: "%",
+                presets: [
+                    { label: "داروی آزاد بیرون از حفره (ICD = 0)", val: 0, sec: 100 },
+                    { label: "ورود نیمی از دارو به نانوحامل", val: 50, sec: 100 },
+                    { label: "کمپلکس کامل درون سیکلودکسترین (پیک القایی قوی)", val: 96, sec: 135 }
+                ],
+                canvasTitle: "شبیه‌ساز ورود دارو به حفره سیکلودکسترین و ظهور پیک القایی (ICD)",
+                formulaStrip: "مولکول داروی بدون تقارن نوری (آکایرال) ➕ حفره کایرال سیکلودکسترین یا آلبومین 🟰 ظهور پیک جدید ICD"
+            },
+            {
+                id: 7,
+                shortName: "۸. کنترل کیفیت بیوسیمیلارها",
+                part: "بخش دوم • ارائه: نگین رسولی",
+                partColor: "purple",
+                slides: "اسلاید ۱۳-۱ و ۱۳-۲",
+                title: "ارزیابی تشابه بیوسیمیلارها و کنترل کیفیت صنعتی (PCA و HOS)",
+                subtitle: "برای تایید یک داروی بیوسیمیلار (مشابه زیستی)، طیف‌های Far-UV و Near-UV آن باید به طور کامل بر فرآورده بیولوژیک مرجع (Innovator) منطبق باشند.",
+                bullets: [
+                    "بررسی همزمان ساختار دوم (Far-UV) و ساختار سوم پروتئین (Near-UV) در کنار FTIR و رامان",
+                    "تحلیل آماری خوشه‌بندی (PCA) برای اثبات هم‌ارزی بچ‌های تولیدی با داروی مرجع طبق استاندارد ICH Q5E",
+                    "شناسایی فوری نمونه‌های تخریب‌شده یا بدتاخورده (Misfolded) که خارج از دایره اطمینان قرار می‌گیرند"
+                ],
+                scrubberLabel: "میزان انحراف ساختاری بچ بیوسیمیلار از داروی مرجع (Innovator):",
+                hints: ["۰٪ انحراف (انطباق کامل)", "انحراف مرزی", "۱۰۰٪ تخریب (خروج از خوشه PCA)"],
+                defaultVal: 6,
+                secondaryLabel: "شعاع سخت‌گیری دایره اطمینان آماری (3σ Ellipse):",
+                secondaryDefault: 100,
+                secondaryUnit: "%",
+                presets: [
+                    { label: "بچ بیوسیمیلار استاندارد (تایید FDA/EMA)", val: 4, sec: 100 },
+                    { label: "انحراف جزئی فرمولاسیون (مرز دایره PCA)", val: 38, sec: 100 },
+                    { label: "نمونه بدتاخورده/تخریب‌شده (رد شده در QC)", val: 90, sec: 90 }
+                ],
+                canvasTitle: "هم‌پوشانی منحنی‌های CD (چپ) و خوشه‌بندی آماری PCA طبق ICH Q5E (راست)",
+                formulaStrip: "معیار تایید بیوسیمیلار: هم‌پوشانی کامل طیف CD با داروی مرجع ➕ قرارگیری در هسته مرکزی نمودار آماری PCA"
+            }
+        ];
+
+        // Global Customizable State
+        let currentStageIndex = 0;
+        let scrubVal = stages[0].defaultVal;
+        let secondaryVal = stages[0].secondaryDefault;
+        let animTime = 0;
+
+        let labConfig = {
+            speed: 1.0,
+            paused: false,
+            stepPx: 1,          // 1px = highest precision
+            sharpness: 1.0,     // Peak bandwidth factor
+            gain: 1.0,          // Vertical amplitude multiplier
+            noise: 0.0,         // Instrumental noise percentage
+            showCrosshair: true,
+            showFineGrid: true,
+            showPeakLabels: true
+        };
+
+        let mousePos = { x: -1, y: -1, inside: false };
+
+        // DOM Elements
+        const masterTimeline = document.getElementById('masterTimeline');
+        const stationPills = document.getElementById('stationPills');
+        const stageCounterBadge = document.getElementById('stageCounterBadge');
+        const partBadge = document.getElementById('partBadge');
+        const slideRefBadge = document.getElementById('slideRefBadge');
+        const stageTitle = document.getElementById('stageTitle');
+        const stageSubtitle = document.getElementById('stageSubtitle');
+        const stageBullets = document.getElementById('stageBullets');
+
+        const localScrubber = document.getElementById('localScrubber');
+        const localScrubberNum = document.getElementById('localScrubberNum');
+        const localScrubberLabel = document.getElementById('localScrubberLabel');
+        const localScrubberHints = document.getElementById('localScrubberHints');
+
+        const secondaryScrubber = document.getElementById('secondaryScrubber');
+        const secondaryScrubberLabel = document.getElementById('secondaryScrubberLabel');
+        const secondaryScrubberValue = document.getElementById('secondaryScrubberValue');
+
+        const presetButtonsContainer = document.getElementById('presetButtonsContainer');
+        const canvasHeaderTitle = document.getElementById('canvasHeaderTitle');
+        const liveMetricPill = document.getElementById('liveMetricPill');
+        const telemetryGrid = document.getElementById('telemetryGrid');
+        const visualFormulaStrip = document.getElementById('visualFormulaStrip');
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function toPersianDigits(num) {
+            const persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return String(num).replace(/[0-9]/g, w => persian[+w]);
+        }
+
+        function renderStationPills() {
+            stationPills.innerHTML = '';
+            stages.forEach((st, idx) => {
+                const isActive = idx === currentStageIndex;
+                const btn = document.createElement('button');
+                btn.className = `px-2.5 py-2 rounded-xl text-xs font-bold transition text-right flex items-center justify-between border ${
+                    isActive
+                        ? (st.partColor === 'sky'
+                            ? 'bg-sky-500/25 border-sky-400 text-white shadow-md shadow-sky-500/20'
+                            : 'bg-purple-500/25 border-purple-400 text-white shadow-md shadow-purple-500/20')
+                        : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800/80 hover:text-slate-200'
+                }`;
+                btn.innerHTML = `<span class="truncate">${st.shortName}</span>`;
+                btn.onclick = () => jumpToStage(idx);
+                stationPills.appendChild(btn);
+            });
+        }
+
+        function jumpToStage(index) {
+            currentStageIndex = Math.max(0, Math.min(stages.length - 1, index));
+            masterTimeline.value = currentStageIndex;
+            const st = stages[currentStageIndex];
+            scrubVal = st.defaultVal;
+            secondaryVal = st.secondaryDefault;
+            localScrubber.value = scrubVal;
+            localScrubberNum.value = scrubVal;
+            secondaryScrubber.value = secondaryVal;
+            updateStageUI();
+        }
+
+        function updateStageUI() {
+            const st = stages[currentStageIndex];
+            renderStationPills();
+
+            stageCounterBadge.textContent = `ایستگاه ${toPersianDigits(currentStageIndex + 1)} از ${toPersianDigits(stages.length)}`;
+            slideRefBadge.textContent = st.slides;
+
+            if (st.partColor === 'sky') {
+                partBadge.className = "px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40";
+            } else {
+                partBadge.className = "px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40";
+            }
+            partBadge.textContent = st.part;
+
+            stageTitle.textContent = st.title;
+            stageSubtitle.textContent = st.subtitle;
+
+            stageBullets.innerHTML = st.bullets.map(b => `
+                <div class="flex items-start gap-2 text-xs text-slate-200 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+                    <i class="ph-fill ph-check-circle text-sky-400 text-base mt-0.5 shrink-0"></i>
+                    <span class="leading-relaxed">${b}</span>
+                </div>
+            `).join('');
+
+            localScrubberLabel.innerHTML = `<i class="ph-fill ph-sliders-horizontal text-base"></i> ${st.scrubberLabel}`;
+            localScrubberHints.innerHTML = st.hints.map(h => `<span>${h}</span>`).join('');
+            secondaryScrubberLabel.innerHTML = `<i class="ph-fill ph-gauge text-base"></i> ${st.secondaryLabel}`;
+
+            presetButtonsContainer.innerHTML = '';
+            st.presets.forEach(p => {
+                const b = document.createElement('button');
+                b.className = "px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-sky-500/20 hover:text-sky-300 hover:border-sky-500/40 border border-slate-700 text-[11px] text-slate-300 transition";
+                b.textContent = p.label;
+                b.onclick = () => {
+                    scrubVal = p.val;
+                    secondaryVal = p.sec || 100;
+                    localScrubber.value = scrubVal;
+                    localScrubberNum.value = scrubVal;
+                    secondaryScrubber.value = secondaryVal;
+                    updateScrubberReadout();
+                };
+                presetButtonsContainer.appendChild(b);
+            });
+
+            canvasHeaderTitle.textContent = st.canvasTitle;
+            visualFormulaStrip.innerHTML = `
+                <div class="flex items-center gap-2 text-sky-300 font-bold shrink-0">
+                    <i class="ph-fill ph-lightbulb-filament text-lg text-amber-400"></i>
+                    <span>خلاصه مفهومی (بدون نیاز به فرمول پیچیده):</span>
+                </div>
+                <div class="text-slate-200 font-medium text-center sm:text-left">${st.formulaStrip}</div>
+            `;
+
+            updateScrubberReadout();
+        }
+
+        function setTelemetryCards(cards) {
+            telemetryGrid.innerHTML = cards.map(c => `
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-2 flex flex-col justify-between">
+                    <span class="text-[10px] text-slate-400">${c.label}</span>
+                    <span class="text-xs font-black font-mono ${c.color || 'text-sky-300'} mt-0.5" dir="ltr">${c.val}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateScrubberReadout() {
+            const v = parseFloat(scrubVal);
+            const sec = parseFloat(secondaryVal);
+            localScrubberNum.value = v;
+            secondaryScrubberValue.textContent = (sec / 100).toFixed(2) + "x";
+
+            if (currentStageIndex === 0) {
+                const rPct = (100 - v).toFixed(1);
+                const sPct = v.toFixed(1);
+                const affinity = Math.max(2, (100 - v) * (sec / 100)).toFixed(1);
+                setTelemetryCards([
+                    { label: "درصد اوتومر (R-Eutomer)", val: `${rPct}%`, color: "text-emerald-400" },
+                    { label: "درصد دیستومر (S-Distomer)", val: `${sPct}%`, color: "text-rose-400" },
+                    { label: "تمایل اتصال به گیرنده", val: `${affinity}%`, color: "text-sky-300" },
+                    { label: "وضعیت ایمنی بالینی", val: v < 15 ? "SAFE (FDA OK)" : (v < 55 ? "WARNING" : "TOXIC"), color: v < 15 ? "text-emerald-400" : "text-rose-400" }
+                ]);
+                if (v < 30) {
+                    liveMetricPill.textContent = "وضعیت: اوتومر (Eutomer) • اتصال کامل و اثر درمانی";
+                    liveMetricPill.className = "px-3 py-1 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 border border-emerald-500/40";
+                } else if (v < 70) {
+                    liveMetricPill.textContent = "وضعیت: مخلوط راسمیک • کاهش اثر و خطر عوارض";
+                    liveMetricPill.className = "px-3 py-1 rounded-full bg-amber-500/20 text-xs font-bold text-amber-300 border border-amber-500/40";
+                } else {
+                    liveMetricPill.textContent = "وضعیت: دیستومر (Distomer) • عدم تطابق با گیرنده و سمیت!";
+                    liveMetricPill.className = "px-3 py-1 rounded-full bg-rose-500/20 text-xs font-bold text-rose-300 border border-rose-500/40";
+                }
+            } else if (currentStageIndex === 1) {
+                const pathDm = (sec / 100).toFixed(2);
+                const conc = ((v - 50) / 50).toFixed(2);
+                const alpha = ((v - 50) * 1.2 * (sec / 100) * labConfig.gain).toFixed(1);
+                const sign = alpha > 0 ? "+" : "";
+                setTelemetryCards([
+                    { label: "زاویه چرخش نوری (α)", val: `${sign}${alpha}°`, color: "text-amber-300" },
+                    { label: "طول مسیر سل (L)", val: `${pathDm} dm`, color: "text-sky-300" },
+                    { label: "غلظت نسبی کایرال (C)", val: `${conc} g/mL`, color: "text-emerald-300" },
+                    { label: "اختلاف جذب (ΔA)", val: `${(alpha * 0.004).toFixed(4)}`, color: "text-purple-300" }
+                ]);
+                liveMetricPill.textContent = `زاویه چرخش نور قطبیده: ${toPersianDigits(sign + alpha)} درجه`;
+                liveMetricPill.className = "px-3 py-1 rounded-full bg-sky-500/20 text-xs font-bold text-sky-300 border border-sky-500/40";
+            } else if (currentStageIndex === 2) {
+                const region = v < 34 ? "Far-UV (190-250nm)" : (v < 67 ? "UV-Vis (250-600nm)" : "Mid-IR (900-1800cm⁻¹)");
+                const tech = v < 34 ? "ECD" : (v < 67 ? "ORD" : "VCD");
+                setTelemetryCards([
+                    { label: "تکنیک منتخب", val: tech, color: "text-sky-300" },
+                    { label: "ناحیه طیفی", val: region, color: "text-amber-300" },
+                    { label: "فرکانس مدولاسیون PEM", val: `${(sec * 0.5).toFixed(1)} kHz`, color: "text-purple-300" },
+                    { label: "نیاز به کروموفور UV", val: tech === "VCD" ? "NO (مستقل)" : "YES (الزامی)", color: tech === "VCD" ? "text-emerald-400" : "text-rose-300" }
+                ]);
+                liveMetricPill.textContent = `روش فعال: ${tech} در ناحیه ${region}`;
+                liveMetricPill.className = "px-3 py-1 rounded-full bg-indigo-500/20 text-xs font-bold text-indigo-300 border border-indigo-500/40";
+            } else if (currentStageIndex === 3) {
+                const corr = ((v / 100) * (1 - Math.abs(sec - 100) / 250)).toFixed(3);
+                setTelemetryCards([
+                    { label: "ضریب انطباق (SimVCD)", val: corr, color: corr > 0.8 ? "text-emerald-400" : "text-amber-400" },
+                    { label: "آرایش مطلق پیشنهادی", val: v > 60 ? "(R)-Enantiomer" : "(S)-Enantiomer", color: "text-sky-300" },
+                    { label: "مقیاس فرکانس DFT", val: `${(sec / 100).toFixed(3)}`, color: "text-purple-300" },
+                    { label: "نیاز به تک‌بلور (Crystal)", val: "NONE (فاز مایع)", color: "text-emerald-400" }
+                ]);
+                liveMetricPill.textContent = corr > 0.8
+                    ? `تطابق عالی طیف تجربی و DFT (${toPersianDigits(Math.round(corr * 100))}٪) • آرایش (R) تایید شد`
+                    : `عدم انطباق فاز ارتعاشی • آرایش فرض شده معکوس یا نیازمند کالیبراسیون است`;
+                liveMetricPill.className = corr > 0.8
+                    ? "px-3 py-1 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 border border-emerald-500/40"
+                    : "px-3 py-1 rounded-full bg-amber-500/20 text-xs font-bold text-amber-300 border border-amber-500/40";
+            } else if (currentStageIndex === 4) {
+                const fracR = 0.5 + (v / 100) * 0.498;
+                const fracS = 1 - fracR;
+                const ee = ((fracR - fracS) * 100).toFixed(2);
+                const rs = (1.8 * (sec / 100) * labConfig.sharpness).toFixed(2);
+                setTelemetryCards([
+                    { label: "خلوص انانتیومری (EE%)", val: `${ee}%`, color: ee > 98 ? "text-emerald-400" : "text-amber-300" },
+                    { label: "نسبت اوتومر به دیستومر", val: `${(fracR * 100).toFixed(1)} : ${(fracS * 100).toFixed(1)}`, color: "text-sky-300" },
+                    { label: "ضریب تفکیک ستون (Rs)", val: rs, color: rs >= 1.5 ? "text-emerald-400" : "text-rose-400" },
+                    { label: "آشکارساز آنلاین PAT", val: "UV + CD Dual", color: "text-purple-300" }
+                ]);
+                liveMetricPill.textContent = `خلوص انانتیومری (EE): ${toPersianDigits(ee)}٪ ${ee >= 98 ? '(تایید بچ تولیدی)' : '(نیازمند خالص‌سازی)'}`;
+                liveMetricPill.className = ee >= 98
+                    ? "px-3 py-1 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 border border-emerald-500/40"
+                    : "px-3 py-1 rounded-full bg-amber-500/20 text-xs font-bold text-amber-300 border border-amber-500/40";
+            } else if (currentStageIndex === 5) {
+                const s = v / 100;
+                const wAlpha = Math.round(Math.max(0, 1 - s * 2) * 100);
+                const wBeta = Math.round(Math.max(0, 1 - Math.abs(s - 0.5) * 2) * 100);
+                const wCoil = Math.max(0, 100 - wAlpha - wBeta);
+                setTelemetryCards([
+                    { label: "سهم مارپیچ آلفا (208/222nm)", val: `${wAlpha}%`, color: "text-rose-400" },
+                    { label: "سهم صفحات بتا (218nm)", val: `${wBeta}%`, color: "text-sky-400" },
+                    { label: "سهم کلاف باز (198nm)", val: `${wCoil}%`, color: "text-emerald-400" },
+                    { label: "ریسک تجمع ایمونوژنیک", val: v < 25 ? "LOW (سالم)" : (v < 65 ? "HIGH (فیبریل)" : "DENATURED"), color: v < 25 ? "text-emerald-400" : "text-rose-400" }
+                ]);
+                if (v < 30) {
+                    liveMetricPill.textContent = "ساختار غالب: مارپیچ آلفا (مینیمم ۲۰۸ و ۲۲۲ نانومتر) • انسولین سالم";
+                    liveMetricPill.className = "px-3 py-1 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 border border-emerald-500/40";
+                } else if (v < 70) {
+                    liveMetricPill.textContent = "ساختار غالب: صفحات بتا (مینیمم ۲۱۸ نانومتر) • خطر فیبریل آمیلوئیدی";
+                    liveMetricPill.className = "px-3 py-1 rounded-full bg-amber-500/20 text-xs font-bold text-amber-300 border border-amber-500/40";
+                } else {
+                    liveMetricPill.textContent = "ساختار غالب: کلاف تصادفی (Random Coil) • تخریب فرمولاسیون!";
+                    liveMetricPill.className = "px-3 py-1 rounded-full bg-rose-500/20 text-xs font-bold text-rose-300 border border-rose-500/40";
+                }
+            } else if (currentStageIndex === 6) {
+                const icdVal = ((v / 100) * (sec / 100) * 42 * labConfig.gain).toFixed(1);
+                setTelemetryCards([
+                    { label: "شدت سیگنال القایی (ICD)", val: `+${icdVal} mdeg`, color: "text-emerald-400" },
+                    { label: "درصد کمپلکس مهمان-میزبان", val: `${v.toFixed(1)}%`, color: "text-sky-300" },
+                    { label: "ثابت اتصال (Ka)", val: `${(sec * 120).toFixed(0)} M⁻¹`, color: "text-amber-300" },
+                    { label: "افزایش حلالیت دارو", val: `${(1 + (v / 100) * 8.5).toFixed(1)}x Fold`, color: "text-purple-300" }
+                ]);
+                liveMetricPill.textContent = v > 50
+                    ? `سیگنال القایی (ICD): +${toPersianDigits(icdVal)} mdeg (تشکیل کمپلکس سیکلودکسترین)`
+                    : `سیگنال القایی (ICD): ناچیز (داروی آکایرال خارج از حفره)`;
+                liveMetricPill.className = v > 50
+                    ? "px-3 py-1 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 border border-emerald-500/40"
+                    : "px-3 py-1 rounded-full bg-slate-800 text-xs font-bold text-slate-300 border border-slate-700";
+            } else if (currentStageIndex === 7) {
+                const sim = Math.max(0, 100 - v).toFixed(1);
+                const pcaDist = (v * 0.085).toFixed(2);
+                const pass = (v * 0.85) < (sec * 0.35);
+                setTelemetryCards([
+                    { label: "تشابه ساختاری (HOS Overlap)", val: `${sim}%`, color: pass ? "text-emerald-400" : "text-rose-400" },
+                    { label: "فاصله اقلیدسی در PCA", val: `${pcaDist} σ`, color: pass ? "text-sky-300" : "text-amber-300" },
+                    { label: "مرز پذیرش (ICH Q5E)", val: `< ${(sec * 0.03).toFixed(2)} σ`, color: "text-purple-300" },
+                    { label: "نتیجه کنترل کیفیت", val: pass ? "BIOSIMILAR PASS" : "REJECTED (Outlier)", color: pass ? "text-emerald-400" : "text-rose-400" }
+                ]);
+                liveMetricPill.textContent = pass
+                    ? `تشابه ساختاری HOS: ${toPersianDigits(sim)}٪ • تایید هم‌ارزی بیوسیمیلار (درون دایره PCA)`
+                    : `تشابه ساختاری HOS: ${toPersianDigits(sim)}٪ • رد شده (خارج از دایره اطمینان PCA)`;
+                liveMetricPill.className = pass
+                    ? "px-3 py-1 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 border border-emerald-500/40"
+                    : "px-3 py-1 rounded-full bg-rose-500/20 text-xs font-bold text-rose-300 border border-rose-500/40";
+            }
+        }
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mousePos.x = e.clientX - rect.left;
+            mousePos.y = e.clientY - rect.top;
+            mousePos.inside = true;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mousePos.inside = false;
+        });
+
+        masterTimeline.addEventListener('input', (e) => {
+            jumpToStage(parseInt(e.target.value, 10));
+        });
+
+        localScrubber.addEventListener('input', (e) => {
+            scrubVal = parseFloat(e.target.value);
+            updateScrubberReadout();
+        });
+
+        localScrubberNum.addEventListener('input', (e) => {
+            let val = parseFloat(e.target.value);
+            if (isNaN(val)) val = 0;
+            val = Math.max(0, Math.min(100, val));
+            scrubVal = val;
+            localScrubber.value = val;
+            updateScrubberReadout();
+        });
+
+        secondaryScrubber.addEventListener('input', (e) => {
+            secondaryVal = parseFloat(e.target.value);
+            updateScrubberReadout();
+        });
+
+        document.getElementById('prevStageBtn').addEventListener('click', () => {
+            jumpToStage(currentStageIndex - 1);
+        });
+
+        document.getElementById('nextStageBtn').addEventListener('click', () => {
+            jumpToStage(currentStageIndex + 1);
+        });
+
+        // Global Customization Controls Listeners
+        document.getElementById('toggleCustomPanelBtn').addEventListener('click', () => {
+            const deck = document.getElementById('customControlDeck');
+            deck.classList.toggle('hidden');
+        });
+
+        document.getElementById('pauseResumeBtn').addEventListener('click', () => {
+            labConfig.paused = !labConfig.paused;
+            document.getElementById('pauseResumeIcon').className = labConfig.paused ? "ph-fill ph-play" : "ph-fill ph-pause";
+            document.getElementById('pauseResumeText').textContent = labConfig.paused ? "ادامه انیمیشن" : "توقف انیمیشن";
+        });
+
+        document.getElementById('ctrlSpeed').addEventListener('input', (e) => {
+            labConfig.speed = parseFloat(e.target.value);
+            document.getElementById('valSpeed').textContent = labConfig.speed.toFixed(1) + "x";
+        });
+
+        document.getElementById('ctrlRes').addEventListener('input', (e) => {
+            labConfig.stepPx = parseInt(e.target.value, 10);
+            document.getElementById('valRes').textContent = labConfig.stepPx === 1 ? `فوق دقیق (1px)` : `${labConfig.stepPx}px`;
+        });
+
+        document.getElementById('ctrlSharpness').addEventListener('input', (e) => {
+            labConfig.sharpness = parseFloat(e.target.value);
+            document.getElementById('valSharpness').textContent = labConfig.sharpness.toFixed(2) + "x";
+            updateScrubberReadout();
+        });
+
+        document.getElementById('ctrlGain').addEventListener('input', (e) => {
+            labConfig.gain = parseFloat(e.target.value) / 100;
+            document.getElementById('valGain').textContent = e.target.value + "%";
+            updateScrubberReadout();
+        });
+
+        document.getElementById('ctrlNoise').addEventListener('input', (e) => {
+            labConfig.noise = parseFloat(e.target.value);
+            document.getElementById('valNoise').textContent = labConfig.noise.toFixed(1) + "%";
+        });
+
+        document.getElementById('chkCrosshair').addEventListener('change', (e) => {
+            labConfig.showCrosshair = e.target.checked;
+        });
+
+        document.getElementById('chkFineGrid').addEventListener('change', (e) => {
+            labConfig.showFineGrid = e.target.checked;
+        });
+
+        document.getElementById('chkPeakLabels').addEventListener('change', (e) => {
+            labConfig.showPeakLabels = e.target.checked;
+        });
+
+        document.getElementById('resetGlobalBtn').addEventListener('click', () => {
+            labConfig.speed = 1.0;
+            labConfig.paused = false;
+            labConfig.stepPx = 1;
+            labConfig.sharpness = 1.0;
+            labConfig.gain = 1.0;
+            labConfig.noise = 0.0;
+            labConfig.showCrosshair = true;
+            labConfig.showFineGrid = true;
+            labConfig.showPeakLabels = true;
+
+            document.getElementById('ctrlSpeed').value = 1.0;
+            document.getElementById('valSpeed').textContent = "1.0x";
+            document.getElementById('ctrlRes').value = 1;
+            document.getElementById('valRes').textContent = "فوق دقیق (1px)";
+            document.getElementById('ctrlSharpness').value = 1.0;
+            document.getElementById('valSharpness').textContent = "1.0x";
+            document.getElementById('ctrlGain').value = 100;
+            document.getElementById('valGain').textContent = "100%";
+            document.getElementById('ctrlNoise').value = 0;
+            document.getElementById('valNoise').textContent = "0.0%";
+            document.getElementById('chkCrosshair').checked = true;
+            document.getElementById('chkFineGrid').checked = true;
+            document.getElementById('chkPeakLabels').checked = true;
+            document.getElementById('pauseResumeIcon').className = "ph-fill ph-pause";
+            document.getElementById('pauseResumeText').textContent = "توقف انیمیشن";
+            updateScrubberReadout();
+        });
+
+        // Helper for deterministic/animated instrumental noise
+        function getNoise(i, t) {
+            if (labConfig.noise <= 0) return 0;
+            return (Math.sin(i * 1.7 + t * 13) * 0.5 + Math.cos(i * 3.1 - t * 7) * 0.5) * labConfig.noise * 1.8;
+        }
+
+        function drawStage0(w, h, t) {
+            const midX = w / 2;
+            const midY = h * 0.43;
+            const mix = scrubVal / 100;
+            const spread = (secondaryVal / 100) * labConfig.gain;
+
+            // Mirror Plane
+            ctx.save();
+            ctx.setLineDash([8, 6]);
+            ctx.strokeStyle = "#f59e0b";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(midX, 24);
+            ctx.lineTo(midX, h - 80);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.fillStyle = "#fbbf24";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.textAlign = "center";
+            ctx.fillText("صفحه آینه تقارن کایرال (Mirror Plane)", midX, 16);
+
+            function drawChiralMol(cx, cy, isMirrored, highlightAlpha, label, subLabel) {
+                ctx.save();
+                ctx.globalAlpha = highlightAlpha;
+                const dir = isMirrored ? -1 : 1;
+                const bob = Math.sin(t * 2 + (isMirrored ? 2 : 0)) * 4;
+
+                const nodes = [
+                    { x: cx - 54 * dir * spread, y: cy - 42 * spread + bob, color: "#2563eb", sym: "-NH₂" },
+                    { x: cx + 48 * dir * spread, y: cy - 42 * spread + bob, color: "#f97316", sym: "-COOH" },
+                    { x: cx - 52 * dir * spread, y: cy + 44 * spread + bob, color: "#9333ea", sym: "-R" },
+                    { x: cx + 45 * dir * spread, y: cy + 44 * spread + bob, color: "#16a34a", sym: "-H" }
+                ];
+
+                ctx.strokeStyle = "#94a3b8";
+                ctx.lineWidth = 4;
+                nodes.forEach(n => {
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy + bob);
+                    ctx.lineTo(n.x, n.y);
+                    ctx.stroke();
+                });
+
+                ctx.fillStyle = "#0f3460";
+                ctx.beginPath();
+                ctx.arc(cx, cy + bob, 20, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = "#38bdf8";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 12px monospace";
+                ctx.fillText("*C", cx, cy + bob + 4);
+
+                nodes.forEach(n => {
+                    ctx.fillStyle = n.color;
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, 14, 0, Math.PI * 2);
+                    ctx.fill();
+                    if (labConfig.showPeakLabels) {
+                        ctx.fillStyle = "#ffffff";
+                        ctx.font = "bold 9px monospace";
+                        ctx.fillText(n.sym, n.x, n.y + 3);
+                    }
+                });
+
+                ctx.fillStyle = "#f8fafc";
+                ctx.font = "bold 13px Vazirmatn";
+                ctx.fillText(label, cx, cy + 82);
+                ctx.fillStyle = isMirrored ? "#f87171" : "#34d399";
+                ctx.font = "11px Vazirmatn";
+                ctx.fillText(subLabel, cx, cy + 100);
+                ctx.restore();
+            }
+
+            drawChiralMol(midX - w * 0.24, midY - 12, false, 1 - mix * 0.55, "(R)-Eutomer • اوتومر", "تطابق سه‌بعدی با پاکت گیرنده");
+            drawChiralMol(midX + w * 0.24, midY - 12, true, 0.4 + mix * 0.6, "(S)-Distomer • دیستومر", "عدم تطابق فضایی (عامل تراتوژن)");
+
+            const recY = h - 35;
+            ctx.fillStyle = "rgba(15, 23, 42, 0.92)";
+            ctx.strokeStyle = mix < 0.5 ? "#10b981" : "#ef4444";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(w * 0.12, recY - 24, w * 0.76, 40, 12);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = "#e2e8f0";
+            ctx.font = "bold 12px Vazirmatn";
+            const statusText = mix < 0.30
+                ? "✅ جایگیری دقیق در گیرنده زیستی بدن: اثر آرام‌بخش و درمانی ایمن"
+                : (mix < 0.7 ? "⚠️ حضور همزمان هر دو انانتیومر (راسمیک): ریسک بالای عوارض جانبی" : "❌ عدم تطابق فضایی با گیرنده: ایجاد سمیت و نقص‌های مادرزادی (فاجعه تالیدومید)");
+            ctx.fillText(statusText, midX, recY);
+        }
+
+        function drawStage1(w, h, t) {
+            const midY = h * 0.5;
+            const cellX = w * 0.38;
+            const baseCellW = w * 0.16;
+            const cellW = Math.min(w * 0.26, baseCellW * (secondaryVal / 100));
+            const cellH = h * 0.62;
+            const angleDeg = (scrubVal - 50) * 1.2 * (secondaryVal / 100) * labConfig.gain;
+            const angleRad = (angleDeg * Math.PI) / 180;
+
+            // Incoming Wave
+            ctx.save();
+            ctx.strokeStyle = "#2563eb";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let x = 25; x <= cellX; x += labConfig.stepPx) {
+                const y = midY + Math.sin((x * 0.065 * labConfig.sharpness) - t * 4) * 50 * labConfig.gain + getNoise(x, t);
+                if (x === 25) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.fillStyle = "#60a5fa";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.textAlign = "center";
+            ctx.fillText("موج نور قطبیده خطی ورودی", cellX * 0.5, midY - 72);
+            ctx.restore();
+
+            // Sample Cell
+            ctx.save();
+            ctx.fillStyle = "rgba(254, 243, 199, 0.12)";
+            ctx.strokeStyle = "#f97316";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(cellX, midY - cellH / 2, cellW, cellH, 16);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = "#fdba74";
+            ctx.font = "bold 13px Vazirmatn";
+            ctx.textAlign = "center";
+            ctx.fillText("محیط فعال نوری", cellX + cellW / 2, midY - 4);
+            ctx.font = "bold 11px monospace";
+            ctx.fillStyle = "#38bdf8";
+            ctx.fillText(`L = ${(secondaryVal / 100).toFixed(2)} dm`, cellX + cellW / 2, midY + 18);
+            ctx.restore();
+
+            const outStartX = cellX + cellW;
+            const outEndX = w - 125;
+
+            ctx.save();
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = "#64748b";
+            ctx.beginPath();
+            ctx.moveTo(outStartX, midY);
+            ctx.lineTo(outEndX, midY);
+            ctx.stroke();
+            ctx.restore();
+
+            // Rotated Wave
+            ctx.save();
+            ctx.strokeStyle = "#f97316";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let x = outStartX; x <= outEndX; x += labConfig.stepPx) {
+                const progress = (x - outStartX) / Math.max(1, outEndX - outStartX);
+                const baselineShift = progress * Math.sin(angleRad) * 65;
+                const amp = 50 * labConfig.gain * Math.cos(angleRad * 0.35);
+                const y = midY + baselineShift + Math.sin((x * 0.065 * labConfig.sharpness) - t * 4) * amp + getNoise(x, t);
+                if (x === outStartX) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            // Polarimeter Analyzer Dial
+            const dialX = w - 64;
+            const dialY = midY;
+            const dialR = 44;
+
+            ctx.save();
+            ctx.fillStyle = "#0f172a";
+            ctx.strokeStyle = "#38bdf8";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(dialX, dialY, dialR, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.setLineDash([3, 3]);
+            ctx.strokeStyle = "#475569";
+            ctx.beginPath();
+            ctx.moveTo(dialX, dialY - dialR + 5);
+            ctx.lineTo(dialX, dialY + dialR - 5);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.strokeStyle = "#f97316";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            ctx.moveTo(dialX - Math.sin(angleRad) * (dialR - 6), dialY + Math.cos(angleRad) * (dialR - 6));
+            ctx.lineTo(dialX + Math.sin(angleRad) * (dialR - 6), dialY - Math.cos(angleRad) * (dialR - 6));
+            ctx.stroke();
+
+            ctx.fillStyle = "#fb923c";
+            ctx.font = "bold 12px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText(`α = ${angleDeg.toFixed(1)}°`, dialX, dialY + dialR + 20);
+            ctx.restore();
+        }
+
+        function drawStage2(w, h, t) {
+            const padX = 40;
+            const bandY = 42;
+            const bandH = 62;
+            const usableW = w - padX * 2;
+
+            const regions = [
+                { name: "فرابنفش دور و نزدیک (190-250nm)", tech: "ECD", desc: "جذب تفاضلی الکترونی جهت ساختار دوم پروتئین‌ها", x: padX, w: usableW * 0.33, color: "#8b5cf6" },
+                { name: "فرابنفش - مرئی (250-600nm)", tech: "ORD", desc: "منحنی پراکندگی چرخش نوری (Cotton Effect) برای سنجش سریع خلوص", x: padX + usableW * 0.33, w: usableW * 0.33, color: "#0ea5e9" },
+                { name: "فروسرخ میانی (900-1800 cm⁻¹)", tech: "VCD", desc: "دورنگی ارتعاشی پیوندها در فاز مایع مستقل از کروموفور UV", x: padX + usableW * 0.66, w: usableW * 0.34, color: "#10b981" }
+            ];
+
+            const activeIdx = scrubVal < 34 ? 0 : (scrubVal < 67 ? 1 : 2);
+
+            regions.forEach((r, idx) => {
+                const isSelected = idx === activeIdx;
+                ctx.save();
+                ctx.fillStyle = isSelected ? r.color + "33" : "rgba(15, 23, 42, 0.7)";
+                ctx.strokeStyle = isSelected ? r.color : "#334155";
+                ctx.lineWidth = isSelected ? 3 : 1.5;
+                ctx.beginPath();
+                ctx.roundRect(r.x + 4, bandY, r.w - 8, bandH, 12);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = isSelected ? "#ffffff" : "#94a3b8";
+                ctx.font = "bold 15px monospace";
+                ctx.textAlign = "center";
+                ctx.fillText(r.tech, r.x + r.w / 2, bandY + 25);
+
+                ctx.font = "11px Vazirmatn";
+                ctx.fillStyle = isSelected ? "#e2e8f0" : "#64748b";
+                ctx.fillText(r.name, r.x + r.w / 2, bandY + 46);
+                ctx.restore();
+            });
+
+            const pointerX = padX + (scrubVal / 100) * usableW;
+            ctx.fillStyle = "#f8fafc";
+            ctx.beginPath();
+            ctx.moveTo(pointerX, bandY - 4);
+            ctx.lineTo(pointerX - 8, bandY - 15);
+            ctx.lineTo(pointerX + 8, bandY - 15);
+            ctx.closePath();
+            ctx.fill();
+
+            const plotY = h * 0.67;
+            const plotW = usableW * 0.88;
+            const plotStartX = (w - plotW) / 2;
+
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(plotStartX, plotY);
+            ctx.lineTo(plotStartX + plotW, plotY);
+            ctx.stroke();
+
+            const sh = labConfig.sharpness;
+            const gn = labConfig.gain * (secondaryVal / 100);
+
+            ctx.save();
+            ctx.strokeStyle = regions[activeIdx].color;
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let i = 0; i <= plotW; i += labConfig.stepPx) {
+                const norm = i / plotW;
+                let yOffset = 0;
+                if (activeIdx === 0) {
+                    yOffset = (-Math.exp(-Math.pow((norm - 0.35) * 5 * sh, 2)) * 55 + Math.exp(-Math.pow((norm - 0.65) * 5 * sh, 2)) * 45) * gn;
+                } else if (activeIdx === 1) {
+                    yOffset = (((norm - 0.5) / (Math.pow((norm - 0.5) * sh, 2) + 0.025)) * 7.5) * gn;
+                } else {
+                    yOffset = (
+                        -Math.exp(-Math.pow((norm - 0.22) * 18 * sh, 2)) * 55 +
+                        Math.exp(-Math.pow((norm - 0.44) * 20 * sh, 2)) * 62 -
+                        Math.exp(-Math.pow((norm - 0.64) * 18 * sh, 2)) * 48 +
+                        Math.exp(-Math.pow((norm - 0.82) * 22 * sh, 2)) * 52
+                    ) * gn;
+                }
+                const x = plotStartX + i;
+                const y = plotY + yOffset * Math.cos(t * 0.8) + getNoise(i, t);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.fillStyle = "#f8fafc";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.textAlign = "center";
+            ctx.fillText(regions[activeIdx].desc, w / 2, h - 16);
+        }
+
+        function drawStage3(w, h, t) {
+            const padX = 55;
+            const plotW = w - padX * 2;
+            const midY = h * 0.52;
+
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(padX, midY);
+            ctx.lineTo(padX + plotW, midY);
+            ctx.stroke();
+
+            // Wavenumber ticks (1000 to 1800 cm-1)
+            const ticks = [1000, 1200, 1400, 1600, 1800];
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "11px monospace";
+            ctx.textAlign = "center";
+            ticks.forEach((wn, idx) => {
+                const tx = padX + (idx / (ticks.length - 1)) * plotW;
+                ctx.fillText(`${wn} cm⁻¹`, tx, h - 18);
+            });
+
+            const sh = labConfig.sharpness;
+            const gn = labConfig.gain;
+
+            function getVCDVal(norm) {
+                return (
+                    Math.exp(-Math.pow((norm - 0.18) * 16 * sh, 2)) * 62 -
+                    Math.exp(-Math.pow((norm - 0.38) * 18 * sh, 2)) * 72 +
+                    Math.exp(-Math.pow((norm - 0.60) * 15 * sh, 2)) * 58 -
+                    Math.exp(-Math.pow((norm - 0.80) * 17 * sh, 2)) * 66
+                ) * gn;
+            }
+
+            // 1. Experimental Spectrum
+            ctx.save();
+            ctx.strokeStyle = "#38bdf8";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let i = 0; i <= plotW; i += labConfig.stepPx) {
+                const norm = i / plotW;
+                const y = midY - getVCDVal(norm) + getNoise(i, t);
+                if (i === 0) ctx.moveTo(padX + i, y);
+                else ctx.lineTo(padX + i, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            // 2. DFT Calculated Spectrum (shifted by secondaryVal frequency scale and inverted by scrubVal)
+            const factor = (scrubVal - 50) / 50;
+            const freqShift = (secondaryVal - 100) * 0.0015;
+            ctx.save();
+            ctx.setLineDash([6, 4]);
+            ctx.strokeStyle = factor > 0.6 ? "#10b981" : "#f97316";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let i = 0; i <= plotW; i += labConfig.stepPx) {
+                const norm = (i / plotW) - freqShift;
+                const y = midY - getVCDVal(norm) * factor;
+                if (i === 0) ctx.moveTo(padX + i, y);
+                else ctx.lineTo(padX + i, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            if (labConfig.showPeakLabels) {
+                const peakPositions = [
+                    { norm: 0.18, wn: "1145 cm⁻¹ (C-F)", dy: -72 * gn },
+                    { norm: 0.38, wn: "1305 cm⁻¹ (C-O)", dy: 82 * gn },
+                    { norm: 0.60, wn: "1480 cm⁻¹ (C-H)", dy: -68 * gn },
+                    { norm: 0.80, wn: "1640 cm⁻¹ (C=O)", dy: 76 * gn }
+                ];
+                ctx.font = "bold 10px monospace";
+                ctx.fillStyle = "#e2e8f0";
+                peakPositions.forEach(p => {
+                    ctx.fillText(p.wn, padX + p.norm * plotW, midY + p.dy);
+                });
+            }
+
+            ctx.textAlign = "right";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.fillStyle = "#38bdf8";
+            ctx.fillText("── طیف تجربی آزمایشگاهی (در فاز محلول بدون نیاز به کریستال)", w - 25, 28);
+            ctx.fillStyle = factor > 0.6 ? "#10b981" : "#f97316";
+            ctx.fillText("- - - طیف محاسبات کوانتومی DFT (تغییر آرایش و مقیاس با اسلایدر)", w - 25, 48);
+        }
+
+        function drawStage4(w, h, t) {
+            const padX = 55;
+            const plotW = w - padX * 2;
+            const uvBaseY = h * 0.35;
+            const cdBaseY = h * 0.72;
+
+            const fracR = 0.5 + (scrubVal / 100) * 0.498;
+            const fracS = 1 - fracR;
+            const sep = 0.18 * (secondaryVal / 100); // Peak separation controlled by secondary slider
+            const pos1 = 0.5 - sep;
+            const pos2 = 0.5 + sep;
+            const sh = 11 * labConfig.sharpness;
+            const gn = 85 * labConfig.gain;
+
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(padX, uvBaseY);
+            ctx.lineTo(padX + plotW, uvBaseY);
+            ctx.moveTo(padX, cdBaseY);
+            ctx.lineTo(padX + plotW, cdBaseY);
+            ctx.stroke();
+
+            ctx.textAlign = "left";
+            ctx.font = "bold 12px monospace";
+            ctx.fillStyle = "#3b82f6";
+            ctx.fillText("UV Detector (254 nm) - Both Positive", padX, uvBaseY - 72);
+            ctx.fillStyle = "#f97316";
+            ctx.fillText("CD Detector (+ / - Chiral Signal)", padX, cdBaseY - 72);
+
+            // Top UV Curve
+            ctx.save();
+            ctx.strokeStyle = "#3b82f6";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let i = 0; i <= plotW; i += labConfig.stepPx) {
+                const norm = i / plotW;
+                const peak1 = Math.exp(-Math.pow((norm - pos1) * sh, 2)) * gn * fracR;
+                const peak2 = Math.exp(-Math.pow((norm - pos2) * sh, 2)) * gn * fracS;
+                const y = uvBaseY - (peak1 + peak2) + getNoise(i, t);
+                if (i === 0) ctx.moveTo(padX + i, y);
+                else ctx.lineTo(padX + i, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            // Bottom CD Curve
+            ctx.save();
+            ctx.strokeStyle = "#f97316";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let i = 0; i <= plotW; i += labConfig.stepPx) {
+                const norm = i / plotW;
+                const peak1 = Math.exp(-Math.pow((norm - pos1) * sh, 2)) * gn * fracR;
+                const peak2 = -Math.exp(-Math.pow((norm - pos2) * sh, 2)) * gn * fracS;
+                const y = cdBaseY - (peak1 + peak2) + getNoise(i, t);
+                if (i === 0) ctx.moveTo(padX + i, y);
+                else ctx.lineTo(padX + i, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            if (labConfig.showPeakLabels) {
+                ctx.textAlign = "center";
+                ctx.font = "bold 11px Vazirmatn";
+                ctx.fillStyle = "#34d399";
+                ctx.fillText(`اوتومر (+): ${toPersianDigits((fracR * 100).toFixed(1))}٪`, padX + plotW * pos1, cdBaseY + 24);
+                ctx.fillStyle = "#f87171";
+                ctx.fillText(`دیستومر (-): ${toPersianDigits((fracS * 100).toFixed(1))}٪`, padX + plotW * pos2, cdBaseY - 22);
+            }
+        }
+
+        function drawStage5(w, h, t) {
+            const padX = 55;
+            const plotW = w * 0.56;
+            const midY = h * 0.54;
+
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(padX, 28);
+            ctx.lineTo(padX, h - 38);
+            ctx.moveTo(padX, midY);
+            ctx.lineTo(padX + plotW, midY);
+            ctx.stroke();
+
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "11px monospace";
+            ctx.textAlign = "center";
+            [180, 195, 210, 225, 240].forEach((wl, idx) => {
+                ctx.fillText(`${wl}nm`, padX + (idx / 4) * plotW, h - 18);
+            });
+
+            const s = scrubVal / 100;
+            const wAlpha = Math.max(0, 1 - s * 2);
+            const wBeta = Math.max(0, 1 - Math.abs(s - 0.5) * 2.2);
+            const wCoil = Math.max(0, (s - 0.5) * 2);
+            const sh = labConfig.sharpness;
+            const gn = labConfig.gain * (secondaryVal / 100);
+
+            function alphaCurve(norm) {
+                return (
+                    Math.exp(-Math.pow((norm - 0.2) * 8 * sh, 2)) * 92 -
+                    Math.exp(-Math.pow((norm - 0.47) * 9 * sh, 2)) * 55 -
+                    Math.exp(-Math.pow((norm - 0.70) * 7 * sh, 2)) * 62
+                );
+            }
+            function betaCurve(norm) {
+                return (
+                    Math.exp(-Math.pow((norm - 0.25) * 7 * sh, 2)) * 42 -
+                    Math.exp(-Math.pow((norm - 0.63) * 6 * sh, 2)) * 46
+                );
+            }
+            function coilCurve(norm) {
+                return (
+                    -Math.exp(-Math.pow((norm - 0.30) * 8 * sh, 2)) * 72 +
+                    Math.exp(-Math.pow((norm - 0.65) * 5 * sh, 2)) * 10
+                );
+            }
+
+            const refs = [
+                { fn: alphaCurve, col: "rgba(239, 68, 68, 0.25)" },
+                { fn: betaCurve, col: "rgba(56, 189, 248, 0.25)" },
+                { fn: coilCurve, col: "rgba(34, 197, 94, 0.25)" }
+            ];
+            refs.forEach(r => {
+                ctx.strokeStyle = r.col;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                for (let i = 0; i <= plotW; i += 3) {
+                    const norm = i / plotW;
+                    const y = midY - r.fn(norm) * labConfig.gain;
+                    if (i === 0) ctx.moveTo(padX + i, y);
+                    else ctx.lineTo(padX + i, y);
+                }
+                ctx.stroke();
+            });
+
+            ctx.save();
+            ctx.strokeStyle = "#facc15";
+            ctx.lineWidth = 3.8;
+            ctx.beginPath();
+            for (let i = 0; i <= plotW; i += labConfig.stepPx) {
+                const norm = i / plotW;
+                const val = (alphaCurve(norm) * wAlpha + betaCurve(norm) * wBeta + coilCurve(norm) * wCoil) * gn;
+                const y = midY - val + getNoise(i, t);
+                if (i === 0) ctx.moveTo(padX + i, y);
+                else ctx.lineTo(padX + i, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            if (labConfig.showPeakLabels) {
+                ctx.font = "bold 10px monospace";
+                ctx.fillStyle = "#fde047";
+                if (wAlpha > 0.4) {
+                    ctx.fillText("Min: 208 & 222nm", padX + plotW * 0.62, midY + 74);
+                } else if (wBeta > 0.4) {
+                    ctx.fillText("Min: 218nm (β-Sheet)", padX + plotW * 0.63, midY + 58);
+                } else {
+                    ctx.fillText("Min: 198nm (Unfolded)", padX + plotW * 0.30, midY + 80);
+                }
+            }
+
+            // Right Side: 3D Protein Chain Animator
+            const protX = w * 0.81;
+            const protY = h * 0.48;
+
+            ctx.save();
+            ctx.strokeStyle = wAlpha > 0.5 ? "#ef4444" : (wBeta > 0.5 ? "#38bdf8" : "#22c55e");
+            ctx.lineWidth = 5;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            for (let k = -60; k <= 60; k += 2) {
+                let px, py;
+                if (wAlpha >= wBeta && wAlpha >= wCoil) {
+                    px = protX + Math.sin(k * 0.22 + t * 2) * 32 * labConfig.gain;
+                    py = protY + k * 1.1;
+                } else if (wBeta >= wAlpha && wBeta >= wCoil) {
+                    px = protX + ((Math.floor((k + 60) / 20) % 2 === 0) ? -28 : 28) * labConfig.gain;
+                    py = protY + k * 1.1;
+                } else {
+                    px = protX + (Math.sin(k * 0.11 + t) * 42 + Math.cos(k * 0.27 - t) * 18) * labConfig.gain;
+                    py = protY + k * 1.1 + Math.sin(k * 0.19) * 12;
+                }
+                if (k === -60) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.fillStyle = "#f8fafc";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.textAlign = "center";
+            const stateTitle = wAlpha >= 0.5 ? "مارپیچ آلفا (انسولین سالم)" : (wBeta >= 0.5 ? "صفحات بتا (فیبریل آمیلوئیدی)" : "کلاف تصادفی (پروتئین بازشده)");
+            ctx.fillText(stateTitle, protX, h - 18);
+        }
+
+        function drawStage6(w, h, t) {
+            const coneX = w * 0.30;
+            const coneY = h * 0.56;
+            const entry = scrubVal / 100;
+
+            const drugY = (coneY - 105) + entry * 105 + Math.sin(t * 3) * 3;
+
+            ctx.save();
+            ctx.fillStyle = "rgba(56, 189, 248, 0.12)";
+            ctx.strokeStyle = "#2563eb";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            ctx.moveTo(coneX - 75, coneY - 50);
+            ctx.lineTo(coneX + 75, coneY - 50);
+            ctx.lineTo(coneX + 45, coneY + 60);
+            ctx.lineTo(coneX - 45, coneY + 60);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.save();
+            ctx.fillStyle = "#f97316";
+            ctx.beginPath();
+            ctx.arc(coneX - 6, drugY, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "#ea580c";
+            ctx.beginPath();
+            ctx.arc(coneX + 16, drugY + 12, 11, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            ctx.fillStyle = "#fdba74";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.textAlign = "center";
+            ctx.fillText("مولکول داروی آکایرال", coneX, drugY - 28);
+            ctx.fillStyle = "#38bdf8";
+            ctx.fillText("حفره کایرال سیکلودکسترین", coneX, coneY + 85);
+
+            const plotX = w * 0.54;
+            const plotW = w * 0.38;
+            const plotY = h * 0.62;
+
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(plotX, plotY);
+            ctx.lineTo(plotX + plotW, plotY);
+            ctx.stroke();
+
+            const amp = 88 * Math.pow(entry, 1.3) * (secondaryVal / 100) * labConfig.gain;
+
+            ctx.save();
+            ctx.strokeStyle = entry > 0.5 ? "#10b981" : "#f59e0b";
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            for (let i = 0; i <= plotW; i += labConfig.stepPx) {
+                const norm = i / plotW;
+                const icdPeak = Math.exp(-Math.pow((norm - 0.5) * 6 * labConfig.sharpness, 2)) * amp;
+                const y = plotY - icdPeak + getNoise(i, t);
+                if (i === 0) ctx.moveTo(plotX + i, y);
+                else ctx.lineTo(plotX + i, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.fillStyle = "#e2e8f0";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.fillText("ظهور پیک القایی (Induced CD Spectrum)", plotX + plotW / 2, plotY + 32);
+        }
+
+        function drawStage7(w, h, t) {
+            const dev = scrubVal / 100;
+            const p1X = 38;
+            const p1W = w * 0.44;
+            const midY = h * 0.52;
+
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(p1X, midY);
+            ctx.lineTo(p1X + p1W, midY);
+            ctx.stroke();
+
+            function mAbCurve(norm, shift) {
+                return (
+                    Math.exp(-Math.pow((norm - (0.28 + shift * 0.1)) * 7 * labConfig.sharpness, 2)) * (55 - shift * 25) -
+                    Math.exp(-Math.pow((norm - (0.62 + shift * 0.08)) * 6 * labConfig.sharpness, 2)) * (70 - shift * 40)
+                ) * labConfig.gain;
+            }
+
+            // Innovator Reference
+            ctx.strokeStyle = "#38bdf8";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let i = 0; i <= p1W; i += labConfig.stepPx) {
+                const norm = i / p1W;
+                const y = midY - mAbCurve(norm, 0);
+                if (i === 0) ctx.moveTo(p1X + i, y);
+                else ctx.lineTo(p1X + i, y);
+            }
+            ctx.stroke();
+
+            // Biosimilar Batch
+            const pcaX = w * 0.75;
+            const pcaY = h * 0.48;
+            const radius = 58 * (secondaryVal / 100);
+            const isInsidePCA = (dev * 85) < radius;
+
+            ctx.save();
+            ctx.setLineDash([6, 4]);
+            ctx.strokeStyle = isInsidePCA ? "#10b981" : "#f43f5e";
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            for (let i = 0; i <= p1W; i += labConfig.stepPx) {
+                const norm = i / p1W;
+                const y = midY - mAbCurve(norm, dev) + getNoise(i, t);
+                if (i === 0) ctx.moveTo(p1X + i, y);
+                else ctx.lineTo(p1X + i, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.fillStyle = "#cbd5e1";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.textAlign = "center";
+            ctx.fillText("هم‌پوشانی طیف داروی مرجع و بیوسیمیلار", p1X + p1W / 2, h - 18);
+
+            // Right Plot: Statistical PCA Clustering
+            ctx.save();
+            ctx.fillStyle = isInsidePCA ? "rgba(16, 185, 129, 0.1)" : "rgba(244, 63, 94, 0.08)";
+            ctx.strokeStyle = isInsidePCA ? "#10b981" : "#f43f5e";
+            ctx.setLineDash([5, 5]);
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(pcaX, pcaY, radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+
+            // PCA Axes
+            ctx.strokeStyle = "rgba(148, 163, 184, 0.25)";
+            ctx.beginPath();
+            ctx.moveTo(pcaX - 95, pcaY);
+            ctx.lineTo(pcaX + 95, pcaY);
+            ctx.moveTo(pcaX, pcaY - 85);
+            ctx.lineTo(pcaX, pcaY + 85);
+            ctx.stroke();
+
+            const refDots = [[-14, -9], [11, 8], [-8, 15], [16, -12], [0, -3]];
+            ctx.fillStyle = "#38bdf8";
+            refDots.forEach(([dx, dy]) => {
+                ctx.beginPath();
+                ctx.arc(pcaX + dx, pcaY + dy, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            const testDots = [[-4, 5], [7, -7], [3, 10]];
+            ctx.fillStyle = isInsidePCA ? "#10b981" : "#f43f5e";
+            testDots.forEach(([dx, dy], idx) => {
+                const moveX = dx + dev * (82 + idx * 10);
+                const moveY = dy - dev * (42 - idx * 8);
+                ctx.beginPath();
+                ctx.arc(pcaX + moveX, pcaY + moveY, 6.5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            ctx.fillStyle = "#cbd5e1";
+            ctx.font = "bold 12px Vazirmatn";
+            ctx.fillText("خوشه‌بندی آماری (PCA) • ICH Q5E", pcaX, h - 18);
+        }
+
+        function drawCrosshairOverlay(w, h) {
+            if (!labConfig.showCrosshair || !mousePos.inside) return;
+
+            ctx.save();
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = "rgba(56, 189, 248, 0.55)";
+            ctx.lineWidth = 1;
+
+            ctx.beginPath();
+            ctx.moveTo(mousePos.x, 0);
+            ctx.lineTo(mousePos.x, h);
+            ctx.moveTo(0, mousePos.y);
+            ctx.lineTo(w, mousePos.y);
+            ctx.stroke();
+
+            // Compute contextual scientific coordinate readout
+            const normX = Math.max(0, Math.min(1, (mousePos.x - 40) / (w - 80)));
+            const normY = ((h / 2 - mousePos.y) / (h * 0.35)) * labConfig.gain;
+
+            let coordText = `X: ${(normX * 100).toFixed(1)}% | Y: ${normY.toFixed(2)}`;
+            if (currentStageIndex === 3) {
+                const wn = Math.round(1000 + normX * 800);
+                coordText = `ν: ${wn} cm⁻¹ | ΔA: ${(normY * 0.0005).toFixed(5)}`;
+            } else if (currentStageIndex === 4) {
+                const rt = (normX * 15).toFixed(2);
+                coordText = `RT: ${rt} min | Signal: ${(normY * 45).toFixed(1)} mV`;
+            } else if (currentStageIndex === 5 || currentStageIndex === 7) {
+                const wl = (180 + normX * 60).toFixed(1);
+                coordText = `λ: ${wl} nm | Δε: ${(normY * 12).toFixed(2)}`;
+            }
+
+            ctx.font = "bold 11px monospace";
+            const textW = ctx.measureText(coordText).width + 16;
+            const boxX = Math.min(w - textW - 8, mousePos.x + 10);
+            const boxY = Math.max(26, mousePos.y - 12);
+
+            ctx.fillStyle = "rgba(15, 23, 42, 0.92)";
+            ctx.strokeStyle = "#38bdf8";
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.roundRect(boxX, boxY - 18, textW, 24, 6);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = "#38bdf8";
+            ctx.textAlign = "left";
+            ctx.fillText(coordText, boxX + 8, boxY - 2);
+            ctx.restore();
+        }
+
+        function animate() {
+            if (!labConfig.paused) {
+                animTime += 0.025 * labConfig.speed;
+            }
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const w = rect.width;
+            const h = rect.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Scientific Grid Background
+            if (labConfig.showFineGrid) {
+                ctx.save();
+                ctx.strokeStyle = "rgba(148, 163, 184, 0.07)";
+                ctx.lineWidth = 1;
+                for (let x = 0; x < w; x += 28) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < h; y += 28) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            switch (currentStageIndex) {
+                case 0: drawStage0(w, h, animTime); break;
+                case 1: drawStage1(w, h, animTime); break;
+                case 2: drawStage2(w, h, animTime); break;
+                case 3: drawStage3(w, h, animTime); break;
+                case 4: drawStage4(w, h, animTime); break;
+                case 5: drawStage5(w, h, animTime); break;
+                case 6: drawStage6(w, h, animTime); break;
+                case 7: drawStage7(w, h, animTime); break;
+            }
+
+            drawCrosshairOverlay(w, h);
+
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = function () {
+            resizeCanvas();
+            updateStageUI();
+            animate();
+        };
+    </script>
+</body>
+</html>
